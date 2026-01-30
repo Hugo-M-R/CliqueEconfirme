@@ -1,0 +1,211 @@
+/* ===== Viewport inteiro e layout responsivo ===== */
+
+.tela-pegadinha {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-height: -webkit-fill-available;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: stretch;
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: linear-gradient(180deg, #faf5f8 0%, #f5eef2 50%, #f8eaf0 100%);
+  overflow: hidden;
+}
+
+/* Mobile: duas perguntas em coluna (uma embaixo da outra) */
+@media (max-width: 768px) {
+  .tela-pegadinha {
+    flex-direction: column;
+  }
+}
+
+/* ===== Bloco de cada pergunta (metade da tela) ===== */
+
+.bloco-pergunta {
+  position: relative;
+  flex: 1 1 50%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2rem);
+  gap: clamp(1rem, 3vw, 1.5rem);
+  box-sizing: border-box;
+  border: 1px solid rgba(180, 100, 120, 0.12);
+}
+
+.bloco-pergunta:first-of-type {
+  border-right: none;
+  border-bottom: none;
+}
+
+.bloco-pergunta:last-of-type {
+  border-left: none;
+  border-top: none;
+}
+
+@media (max-width: 768px) {
+  .bloco-pergunta {
+    flex: 1 1 50%;
+    min-height: 180px;
+  }
+
+  .bloco-pergunta:first-of-type {
+    border-right: none;
+    border-bottom: 1px solid rgba(180, 100, 120, 0.12);
+  }
+
+  .bloco-pergunta:last-of-type {
+    border-left: none;
+    border-top: none;
+  }
+}
+
+/* Texto da pergunta */
+.pergunta-texto {
+  margin: 0;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 600;
+  color: #5c3d4a;
+  line-height: 1.4;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Área dos botões: relativa para o NÃO se mover dentro dela */
+.botoes-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Botões: área de toque mínima 44px (acessibilidade) */
+.botao {
+  min-height: 44px;
+  min-width: 44px;
+  padding: clamp(0.6rem, 2vw, 0.85rem) clamp(1.2rem, 4vw, 1.75rem);
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.botao:active {
+  transform: scale(0.98);
+}
+
+/* Botão SIM: fixo, destaque positivo */
+.botao-sim {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(145deg, #c45c8a 0%, #a84a6e 100%);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(196, 92, 138, 0.4);
+}
+
+.botao-sim:hover {
+  box-shadow: 0 8px 28px rgba(196, 92, 138, 0.5);
+}
+
+@media (hover: none) {
+  .botao-sim:active {
+    box-shadow: 0 4px 16px rgba(196, 92, 138, 0.5);
+  }
+}
+
+/* Botão NÃO: absoluto, foge do cursor/dedo */
+.botao-nao {
+  position: absolute;
+  z-index: 1;
+  background: linear-gradient(145deg, #e8e0e4 0%, #d8d0d4 100%);
+  color: #6b5b62;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: left 0.25s ease-out, top 0.25s ease-out;
+}
+
+.botao-nao:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Mensagem de sucesso (tela cheia) ===== */
+
+.mensagem-sucesso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.texto-sucesso {
+  margin: 0;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 700;
+  color: #5c3d4a;
+  line-height: 1.4;
+  text-align: center;
+  animation: aparece 0.5s ease-out;
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== Tema escuro ===== */
+
+@media (prefers-color-scheme: dark) {
+  .tela-pegadinha {
+    background: linear-gradient(180deg, #1e1a22 0%, #261f28 50%, #221c26 100%);
+  }
+
+  .bloco-pergunta {
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .bloco-pergunta:first-of-type {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .pergunta-texto {
+    color: #f0e4ec;
+  }
+
+  .botao-sim {
+    background: linear-gradient(145deg, #c45c8a 0%, #8e3a5c 100%);
+    box-shadow: 0 6px 20px rgba(196, 92, 138, 0.35);
+  }
+
+  .botao-nao {
+    background: linear-gradient(145deg, #4a4048 0%, #3d3540 100%);
+    color: #c8b8c4;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .texto-sucesso {
+    color: #f0e4ec;
+  }
+}
